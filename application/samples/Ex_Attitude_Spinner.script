@@ -1,0 +1,72 @@
+%General Mission Analysis Tool(GMAT) Script
+%Created: 2010-07-22 04:56:19
+
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft Sat;
+GMAT Sat.DateFormat = UTCGregorian;
+GMAT Sat.Epoch = '09 Aug 2010 09:53:50.937';
+GMAT Sat.CoordinateSystem = EarthMJ2000Eq;
+GMAT Sat.DisplayStateType = Keplerian;
+GMAT Sat.SMA = 10924.38026705;
+GMAT Sat.ECC = 0.001627899999999591;
+GMAT Sat.INC = 38.03820000000003;
+GMAT Sat.RAAN = 250.4634999999999;
+GMAT Sat.AOP = 225.0000000000109;
+GMAT Sat.TA = 63.36085033997288;
+GMAT Sat.Attitude = Spinner;
+GMAT Sat.AttitudeDisplayStateType = 'EulerAngles';
+GMAT Sat.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT Sat.EulerAngleSequence = '123';
+GMAT Sat.EulerAngle1 = 0;
+GMAT Sat.EulerAngle2 = 0;
+GMAT Sat.EulerAngle3 = 0;
+GMAT Sat.AngularVelocityX = 180;
+GMAT Sat.AngularVelocityY = 0;
+GMAT Sat.AngularVelocityZ = 0;
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator DefaultProp;
+
+GMAT DefaultProp.FM = DefaultProp_ForceModel;
+Create ForceModel DefaultProp_ForceModel;
+GMAT DefaultProp.MaxStep = 0.123;
+
+%----------------------------------------
+%---------- Coordinate Systems
+%----------------------------------------
+
+Create CoordinateSystem LVLH;
+GMAT LVLH.Origin = Sat;
+GMAT LVLH.Axes = ObjectReferenced;
+GMAT LVLH.YAxis = -N;
+GMAT LVLH.ZAxis = -R;
+GMAT LVLH.Primary = Earth;
+GMAT LVLH.Secondary = Sat;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create OrbitView EarthView;
+GMAT EarthView.SolverIterations = Current;
+GMAT EarthView.DataCollectFrequency = 2;
+GMAT EarthView.Add = {Sat, Earth, Sun};
+GMAT EarthView.DrawObject = [ true true true ];
+GMAT EarthView.ViewPointVector = [ -35000 0 0 ];
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+
+Propagate 'Prop 12000 s' DefaultProp(Sat) {Sat.ElapsedSecs = 1200.0};
+
+

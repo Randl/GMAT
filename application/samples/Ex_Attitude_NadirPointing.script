@@ -1,0 +1,70 @@
+%General Mission Analysis Tool(GMAT) Script
+%Created: 2010-07-31 09:24:31
+
+%----------------------------------------
+%---------- Solar System User-Modified Values
+%----------------------------------------
+
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft DMSP;
+GMAT DMSP.DateFormat = UTCGregorian;
+GMAT DMSP.Epoch = '01 Jul 2000 11:59:28.000';
+GMAT DMSP.CoordinateSystem = EarthMJ2000Eq;
+GMAT DMSP.DisplayStateType = Keplerian;
+GMAT DMSP.SMA = 9000.938817629016;
+GMAT DMSP.ECC = 0.02454974900598064;
+GMAT DMSP.INC = 100.850080056581;
+GMAT DMSP.RAAN = 306.6148021947984;
+GMAT DMSP.AOP = 314.1905515359929;
+GMAT DMSP.TA = 99.88774933204795;
+GMAT DMSP.Attitude = CoordinateSystemFixed;
+GMAT DMSP.AttitudeDisplayStateType = 'EulerAngles';
+GMAT DMSP.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT DMSP.AttitudeCoordinateSystem = LVLH;
+GMAT DMSP.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator DefaultProp;
+
+GMAT DefaultProp.FM = DefaultProp_ForceModel;
+Create ForceModel DefaultProp_ForceModel;
+GMAT DefaultProp.MaxStep = 0.123;
+
+%----------------------------------------
+%---------- Coordinate Systems
+%----------------------------------------
+
+Create CoordinateSystem LVLH;
+GMAT LVLH.Origin = DMSP;
+GMAT LVLH.Axes = ObjectReferenced;
+GMAT LVLH.YAxis = -N;
+GMAT LVLH.ZAxis = -R;
+GMAT LVLH.Primary = Earth;
+GMAT LVLH.Secondary = DMSP;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create OrbitView Enhanced3DView1;
+GMAT Enhanced3DView1.Add = {DMSP, Earth};
+GMAT Enhanced3DView1.DrawObject = [ true true ];
+GMAT Enhanced3DView1.ViewPointVector = [ 20000 20000 20000 ];
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+BeginMissionSequence;
+
+Propagate 'Prop 10000 s' DefaultProp(DMSP) {DMSP.ElapsedSecs = 1000.0};
+
+
+

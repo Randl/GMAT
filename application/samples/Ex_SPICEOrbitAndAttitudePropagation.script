@@ -1,0 +1,64 @@
+%General Mission Analysis Tool(GMAT) Script
+%Created: 2010-09-28 08:16:24
+
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft MarsExpress;
+GMAT MarsExpress.DateFormat = UTCGregorian;
+GMAT MarsExpress.Epoch = '01 Jun 2010 16:00:00.000';
+GMAT MarsExpress.NAIFId = -41;
+GMAT MarsExpress.NAIFIdReferenceFrame = -41001;
+GMAT MarsExpress.OrbitSpiceKernelName = {'../data/vehicle/ephem/spk/MarsExpress_Short.bsp'};
+GMAT MarsExpress.AttitudeSpiceKernelName = {'../data/vehicle/ephem/spk/MarsExpress_ATNM_PTR00012_100531_002.BC'};
+GMAT MarsExpress.SCClockSpiceKernelName = {'../data/vehicle/ephem/spk/MarsExpress_MEX_100921_STEP.TSC'};
+GMAT MarsExpress.FrameSpiceKernelName = {'../data/vehicle/ephem/spk/MarsExpress_MEX_V10.TF'};
+GMAT MarsExpress.Attitude = 'SpiceAttitude';
+GMAT MarsExpress.ModelFile = '../data/vehicle/models/aura.3ds';
+GMAT MarsExpress.AttitudeDisplayStateType = 'Quaternion';
+GMAT MarsExpress.AttitudeRateDisplayStateType = 'AngularVelocity';
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator spkProp;
+GMAT spkProp.Type = SPK;
+GMAT spkProp.StepSize = 5;
+GMAT spkProp.CentralBody = Mars;
+GMAT spkProp.EpochFormat = 'UTCGregorian';
+GMAT spkProp.StartEpoch = '01 Jun 2010 16:00:00.000';
+
+%----------------------------------------
+%---------- Coordinate Systems
+%----------------------------------------
+
+Create CoordinateSystem MarsMJ2000Eq;
+GMAT MarsMJ2000Eq.Origin = Mars;
+GMAT MarsMJ2000Eq.Axes = MJ2000Eq;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create OrbitView Enhanced3DView1;
+GMAT Enhanced3DView1.Add = {MarsExpress, Mars};
+GMAT Enhanced3DView1.CoordinateSystem = MarsMJ2000Eq;
+GMAT Enhanced3DView1.ViewPointReference = Mars;
+GMAT Enhanced3DView1.ViewPointVector = [ 15528.68341064453   -10312.5699694008   -6051.2031445503];
+GMAT Enhanced3DView1.ViewDirection = Mars;
+GMAT Enhanced3DView1.ViewScaleFactor = 1.5;
+GMAT Enhanced3DView1.ViewUpCoordinateSystem = MarsMJ2000Eq;
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+
+Propagate spkProp(MarsExpress){MarsExpress.ElapsedDays = 1.0}
+
+
+

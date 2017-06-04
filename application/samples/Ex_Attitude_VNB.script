@@ -1,0 +1,51 @@
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft Sat;
+GMAT Sat.Attitude = CoordinateSystemFixed;
+GMAT Sat.AttitudeDisplayStateType = 'Quaternion';
+GMAT Sat.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT Sat.AttitudeCoordinateSystem = userDefinedVNB;
+GMAT Sat.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator DefaultProp;
+GMAT DefaultProp.FM = DefaultProp_ForceModel;
+GMAT DefaultProp.MaxStep = 1;
+Create ForceModel DefaultProp_ForceModel;
+
+%----------------------------------------
+%---------- Coordinate Systems
+%----------------------------------------
+
+Create CoordinateSystem userDefinedVNB;
+GMAT userDefinedVNB.Origin = Sat;
+GMAT userDefinedVNB.Axes = ObjectReferenced;
+GMAT userDefinedVNB.XAxis = N;
+GMAT userDefinedVNB.ZAxis = -R;
+GMAT userDefinedVNB.Primary = Earth;
+GMAT userDefinedVNB.Secondary = Sat;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create OrbitView Enhanced3DView1;
+GMAT Enhanced3DView1.Add = {Sat, Earth};
+GMAT Enhanced3DView1.CoordinateSystem = EarthMJ2000Eq;
+GMAT Enhanced3DView1.DrawObject = [ true true ];
+GMAT Enhanced3DView1.ViewPointVector = [ 20000 20000 20000 ];
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+
+Propagate 'Prop 120000 s' DefaultProp(Sat) {Sat.ElapsedSecs = 12000.0};

@@ -1,0 +1,74 @@
+
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft MarsSC;
+GMAT MarsSC.DateFormat = UTCGregorian;
+GMAT MarsSC.Epoch = '01 Jun 2004 12:00:00.000';
+GMAT MarsSC.CoordinateSystem = MarsMJ2000Eq;
+GMAT MarsSC.DisplayStateType = Cartesian;
+GMAT MarsSC.X = 3547;
+GMAT MarsSC.Y = 0;
+GMAT MarsSC.Z = 0;
+GMAT MarsSC.VX = 0;
+GMAT MarsSC.VY = 2.457083402459184;
+GMAT MarsSC.VZ = 2.457083402459184;
+GMAT MarsSC.DryMass = 350;
+GMAT MarsSC.Cd = 2.2;
+GMAT MarsSC.Cr = 1.2;
+GMAT MarsSC.DragArea = 20;
+GMAT MarsSC.SRPArea = 20;
+
+
+%----------------------------------------
+%---------- ForceModels
+%----------------------------------------
+
+Create ForceModel MarsDrag;
+GMAT MarsDrag.CentralBody = Mars;
+GMAT MarsDrag.PrimaryBodies = {Mars};
+GMAT MarsDrag.SRP = Off;
+GMAT MarsDrag.RelativisticCorrection = Off;
+GMAT MarsDrag.ErrorControl = RSSStep;
+GMAT MarsDrag.GravityField.Mars.Degree = 0;
+GMAT MarsDrag.GravityField.Mars.Order = 0;
+GMAT MarsDrag.GravityField.Mars.PotentialFile = 'Mars50c.cof';
+GMAT MarsDrag.Drag.AtmosphereModel = MarsGRAM2005;
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator RKV89;
+GMAT RKV89.FM = MarsDrag;
+GMAT RKV89.Type = RungeKutta89;
+GMAT RKV89.InitialStepSize = 60;
+GMAT RKV89.Accuracy = 1e-013;
+GMAT RKV89.MinStep = 0;
+GMAT RKV89.MaxStep = 2700;
+GMAT RKV89.MaxStepAttempts = 50;
+GMAT RKV89.StopIfAccuracyIsViolated = true;
+
+%----------------------------------------
+%---------- Coordinate Systems
+%----------------------------------------
+
+Create CoordinateSystem MarsMJ2000Eq;
+GMAT MarsMJ2000Eq.Origin = Mars;
+
+GMAT MarsMJ2000Eq.Axes = MJ2000Eq;
+
+Create CoordinateSystem MarsFixed;
+GMAT MarsFixed.Origin = Mars;
+GMAT MarsFixed.Axes = BodyFixed;
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+
+Propagate RKV89(MarsSC) {MarsSC.ElapsedSecs = 300};

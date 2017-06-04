@@ -1,0 +1,39 @@
+/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/chaimbaskin/evgen/gmat
+-- The C compiler identification is GNU 5.4.1
+-- The CXX compiler identification is GNU 5.4.1
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Could NOT find wxWidgets (missing:  wxWidgets_LIBRARIES wxWidgets_INCLUDE_DIRS) 
+ERRORCSPICE NOT FOUND. Set CSPICE_DIR to path to include/SpiceUsr.h and re-configure.
+CMake Warning at CMakeLists.txt:188 (MESSAGE):
+  F2C NOT FOUND.  Set F2C_DIR to path to f2c.h and re-configure.
+
+
+-- Could NOT find Matlab (missing:  Matlab_INCLUDE_DIRS Matlab_MEX_LIBRARY Matlab_MEX_EXTENSION Matlab_ROOT_DIR MAIN_PROGRAM MX_LIBRARY ENG_LIBRARY) 
+CMake Warning at CMakeLists.txt:210 (MESSAGE):
+  64-bit Matlab NOT FOUND.  Set Matlab_ROOT_DIR to the path to Matlab and
+  ensure you have a working license.
+
+
+-- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.5m.so (found version "3.5.2") 
+CMake Error at /usr/share/cmake-3.5/Modules/FindPackageHandleStandardArgs.cmake:148 (message):
+  Failed to find XercesC (missing: XercesC_LIBRARY XercesC_INCLUDE_DIR
+  XercesC_VERSION)
+Call Stack (most recent call first):
+  /usr/share/cmake-3.5/Modules/FindPackageHandleStandardArgs.cmake:388 (_FPHSA_FAILURE_MESSAGE)
+  /usr/share/cmake-3.5/Modules/FindXercesC.cmake:101 (FIND_PACKAGE_HANDLE_STANDARD_ARGS)
+  CMakeLists.txt:286 (FIND_PACKAGE)
+
+
+-- Configuring incomplete, errors occurred!
+See also "/home/chaimbaskin/evgen/gmat/cmake-build-debug/CMakeFiles/CMakeOutput.log".

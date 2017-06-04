@@ -1,0 +1,71 @@
+
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft DMSP;
+GMAT DMSP.DateFormat = UTCGregorian;
+GMAT DMSP.Epoch = '01 Jul 2000 11:59:28.000';
+GMAT DMSP.SMA = 9000.938817629014;
+GMAT DMSP.ECC = 0.02454974900598012;
+GMAT DMSP.INC = 100.850080056581;
+GMAT DMSP.RAAN = 306.6148021947984;
+GMAT DMSP.AOP = 314.1905515359924;
+GMAT DMSP.TA = 99.88774933204847;
+GMAT DMSP.Attitude = CoordinateSystemFixed;
+GMAT DMSP.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT DMSP.AttitudeCoordinateSystem = LVLH;
+GMAT DMSP.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator DefaultProp;
+GMAT DefaultProp.FM = DefaultProp_ForceModel;
+GMAT DefaultProp.MaxStep = 3;
+Create ForceModel DefaultProp_ForceModel;
+
+%----------------------------------------
+%---------- Coordinate Systems
+%----------------------------------------
+
+Create CoordinateSystem LVLH;
+GMAT LVLH.Origin = DMSP;
+GMAT LVLH.Axes = ObjectReferenced;
+GMAT LVLH.YAxis = -N;
+GMAT LVLH.ZAxis = -R;
+GMAT LVLH.Primary = Earth;
+GMAT LVLH.Secondary = DMSP;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create OrbitView EarthView;
+GMAT EarthView.SolverIterations = Current;
+GMAT EarthView.UpperLeft = [ 0.002352941176470588 0 ];
+GMAT EarthView.Size = [ 0.5 0.4496021220159151 ];
+GMAT EarthView.RelativeZOrder = 34;
+GMAT EarthView.Maximized = true;
+GMAT EarthView.Add = {DMSP, Earth};
+GMAT EarthView.ViewPointVector = [ 20000 20000 20000 ];
+
+Create XYPlot XYPlot1;
+GMAT XYPlot1.SolverIterations = Current;
+GMAT XYPlot1.UpperLeft = [ 0.002352941176470588 0.4535809018567639 ];
+GMAT XYPlot1.Size = [ 0.5 0.4496021220159151 ];
+GMAT XYPlot1.RelativeZOrder = 26;
+GMAT XYPlot1.XVariable = DMSP.A1ModJulian;
+GMAT XYPlot1.YVariables = {DMSP.MRP1, DMSP.MRP2, DMSP.MRP3};
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+BeginMissionSequence;
+
+Propagate 'Prop 10000 s' DefaultProp(DMSP) {DMSP.ElapsedSecs = 20000.0};
+
+
+
