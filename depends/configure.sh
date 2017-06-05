@@ -135,13 +135,13 @@ function download_depends() {
 		if [ "$arch" = "x86" ]
 		then
 		  echo "Downloading 32-bit CSPICE..."
-		  curl http://naif.jpl.nasa.gov/pub/naif/toolkit/C/"$cspice_type"_32bit/packages/cspice.tar.Z > cspice.tar.Z
+		  curl -L https://naif.jpl.nasa.gov/pub/naif/toolkit/C/"$cspice_type"_32bit/packages/cspice.tar.Z > cspice.tar.Z
 		  gzip -d cspice.tar.Z
 		  tar -xf cspice.tar
 		  mv cspice cspice32
 		else
 		  echo "Downloading 64-bit CSPICE..."
-		  curl http://naif.jpl.nasa.gov/pub/naif/toolkit/C/"$cspice_type"_64bit/packages/cspice.tar.Z > cspice.tar.Z
+		  curl -L https://naif.jpl.nasa.gov/pub/naif/toolkit/C/"$cspice_type"_64bit/packages/cspice.tar.Z > cspice.tar.Z
 		  gzip -d cspice.tar.Z
 		  tar -xf cspice.tar
 		  mv cspice cspice64
@@ -183,7 +183,7 @@ function download_depends() {
 
 		# Download and extract Xerces
 		echo "Downloading Xerces-C $xerces_version"
-		curl http://archive.apache.org/dist/xerces/c/3/sources/xerces-c-$xerces_version.tar.gz > xerces.tar.gz
+		curl  -L http://archive.apache.org/dist/xerces/c/3/sources/xerces-c-$xerces_version.tar.gz > xerces.tar.gz
 		gzip -d xerces.tar.gz
 		tar -xf xerces.tar --strip-components 1
 		rm xerces.tar
